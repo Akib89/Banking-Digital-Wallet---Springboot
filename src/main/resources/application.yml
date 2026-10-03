@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: digital-wallet-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/walletdb}
+    username: ${DB_USERNAME:wallet}
+    password: ${DB_PASSWORD:walletpass}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+wallet:
+  jwt:
+    issuer: ${JWT_ISSUER:digital-wallet-backend}
+    ttl-minutes: ${JWT_TTL_MINUTES:60}
+    secret: ${JWT_SECRET:change-this-development-secret-1234567890-abcdef}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

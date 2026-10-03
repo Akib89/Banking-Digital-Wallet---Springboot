@@ -1,0 +1,57 @@
+### Register Alice
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Alice Developer",
+  "email": "alice@example.com",
+  "password": "Password123!"
+}
+
+### Login Alice - copy accessToken into {{token}}
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "Password123!"
+}
+
+### Create BDT wallet
+POST http://localhost:8080/api/wallets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currency": "BDT"
+}
+
+### My wallets
+GET http://localhost:8080/api/wallets/me
+Authorization: Bearer {{token}}
+
+### Deposit (simulated)
+POST http://localhost:8080/api/wallets/{{walletId}}/deposit
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 10000.00
+}
+
+### Transfer - receiver must be another existing BDT wallet
+POST http://localhost:8080/api/transfers
+Authorization: Bearer {{token}}
+Idempotency-Key: transfer-demo-001
+Content-Type: application/json
+
+{
+  "senderWalletId": "{{walletId}}",
+  "receiverWalletId": "{{receiverWalletId}}",
+  "amount": 500.00,
+  "description": "Demo transfer"
+}
+
+### Transaction history
+GET http://localhost:8080/api/wallets/{{walletId}}/transactions?page=0&size=20
+Authorization: Bearer {{token}}
